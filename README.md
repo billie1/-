@@ -1,85 +1,23 @@
-# Green ORAM
+# -2023年计算机体系结构大作业论文复现
 
-Green ORAM is a locality-aware ORAM primitive that exploits space locality of data in the physical memory for improving Path ORAM to obtain better performance while maintaining security. We implement the simulation of Green ORAM by revising the USIMM simulator.
+## 环境
++ ubantu 18.04
 
+## 数据集
+2012 memory scheduling championship (MSC). 每个工作负载包含 5 亿条代表性指令，这些指令是从 PARSEC 和商业基准中选出的，其方法类似于 Simpoint。整个数据集可以在这个页面下载 [this page](https://www.cs.utah.edu/~rajeev/jwac12/results_table.html).
 
-
-USIMM is the Utah SImulated Memory Module, a cycle-accurate memory system simulator follows JEDEC DDR3-1600 specification. The USIMM simulator can be download in [this page](http://utaharch.blogspot.com/2012/02/usimm.html). We use the newest 1.3 version and mainly modify the `main.c` and `scheduler.c` in the `src` folder to implement Green ORAM. We provide two kinds of stash: single-path-stash and multi-path-stash in our implement.
-
-
-
-## Environment
-
-- Linux version 5.4.0-70-generic (buildd@lgw01-amd64-039)
-- gcc version 7.5.0
-- Ubuntu 7.5.0-3ubuntu1~18.04
-
-
-
-## Dataset
-
-We select the dataset used in 2012 memory scheduling championship (MSC). Each workload contains 500 million representative instructions selected from the PARSEC and commercial benchmark with a methodology similar to Simpoint. The whole dataset can be downloaded in [this page](https://www.cs.utah.edu/~rajeev/jwac12/results_table.html).
-
-
-
-## Preprocess
-
-**The downloaded dataset should be extracted to the `input` folder in our codes.** Then it can be used in simulation. 
-
-
-
-We also provide two codes to test the extreme cases: the `transLocal.cpp` can transform the origin addresses in workload into consecutive addresses; the `transRandom.cpp` transforms origin addresses into random addresses. To use this code, you can first modify the input file in the source code:
-
-
-
-```sh
-fp = fopen("workload_name","r");
-```
-
-
-Then run the code as follow:
-
-
-
-```sh
-$ g++ transLocal.cpp -o transLocal
-$ ./transLocal > workload_name_Local
-```
-
-
-
-## Set Green ORAM mode
-
-We provide function `get_read_num_oram_single()` for common 1-path-stash and `get_read_num_oram_multi()` for 3-path-stash. These two functions are also the entrance of the ORAM relative functions.
-
-
-
-As default, we use the 3-path-stash and call `get_read_num_oram_multi()` in `main()`. You can call  `get_read_num_oram_single()` for common stash. You can also comment out this line for the basic simulation without ORAM.
-
-
-
-## Set simulation instructions
-
-The simulations instructions are set in file `run_GreenORAM`. In each instruction, you need to appoint the memory channel size, the input file and the output file. You can write an instruction as follow:
-
-
-
+## 设置模拟指令
+模拟指令在文件“run_GreenORAM”中设置。在每条指令中，您需要指定内存通道大小、输入文件和输出文件。您可以按如下方式编写指令：
 ```sh
 bin/usimm input/1channel.cfg input/black > output/black_GreenORAM
 ```
 
-
-
-## Make and run
-
-After the preparations above, you can compile the project and run the simulation with the following commands:
-
-
-
+## make and run
+完成上述准备工作后，您可以使用以下命令编译项目并运行模拟：
 ```sh
-$ cd src
-$ make clean
-$ make
-$ cd ..
-$ ./run_GreenORAM
+cd src
+make clean
+make
+cd ..
+./run_GreenORAM
 ```
