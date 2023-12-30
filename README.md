@@ -8,16 +8,16 @@
 
 ## 设置模拟指令
 模拟指令在文件“run_GreenORAM”中设置。在每条指令中，您需要指定内存通道大小、输入文件和输出文件。您可以按如下方式编写指令：
-$$sh
+```sh
 bin/usimm input/1channel.cfg input/black > output/black_GreenORAM
-$$
+```
 
 ## make and run
 完成上述准备工作后，您可以使用以下命令编译项目并运行模拟：
-$$sh
+```sh
 cd src
 make clean
 make
 cd ..
 ./run_GreenORAM
-$$
+```
